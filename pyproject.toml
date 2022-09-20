@@ -1,0 +1,54 @@
+# cSpell:words wordle rgxs POSIX pytest pylint mypy
+
+[tool.poetry]
+name = "wordle"
+version = "0.1.0"
+description = "Wordle Solver"
+authors = ["Matthew Wyant <me@matthewwyant.com>"]
+license = "GPL-3.0-plus"
+# https://pypi.org/classifiers/
+classifiers = [
+    # "Development Status :: 1 - Planning",
+    # "Development Status :: 2 - Pre-Alpha",
+    # "Development Status :: 3 - Alpha",
+    "Development Status :: 4 - Beta",
+    # "Development Status :: 5 - Production/Stable",
+    # "Development Status :: 6 - Mature",
+    # "Development Status :: 7 - Inactive",
+    "Environment :: Console",
+    "Intended Audience :: Developers",
+    "Natural Language :: English",
+    "Operating System :: OS Independent",
+    # "Operating System :: Unix",
+    # "Operating System :: POSIX",
+    # "Operating System :: Microsoft :: Windows",
+    # "Operating System :: MacOS",
+    "Programming Language :: Python :: 3 :: Only",
+    "Topic :: Software Development :: Libraries",
+    "Topic :: Software Development :: Libraries :: Python Modules",
+    "Topic :: Utilities"
+]
+
+
+[tool.poetry.scripts]
+wordle = 'wordle.__main__:cli'
+
+[tool.pylint.basic]
+good-names-rgxs = ["^[a-z_][a-z]?"]
+no-docstring-rgx = "^_|[Tt]est|[Mm]ock"
+
+[tool.poetry.dependencies]
+python = "^3.10"
+click = "^8.1"
+rich = "^12.5"
+
+[tool.poetry.dev-dependencies]
+black = "^22.8"
+mypy = "^0.971"
+pylint = "^2.15"
+pytest = "^7.1"
+tox = "^3.26"
+
+[build-system]
+requires = ["poetry-core>=1.0.0"]
+build-backend = "poetry.core.masonry.api"
