@@ -1,5 +1,8 @@
+# cSpell:words wordle wordlist
+
 """Code related to wordlist storage and filtering"""
 
+import csv
 from typing import Iterable, Optional
 
 from wordle import WORD_LEN
@@ -82,8 +85,8 @@ class Wordlist:
         if letter in self._present:
             raise ContradictoryFilterError()
 
-        if letter in self._missing:
-            raise RedundantFilterError()
+        # if letter in self._missing:
+        #     raise RedundantFilterError()
 
         self._missing.add(letter)
         self._modified = True
@@ -94,8 +97,8 @@ class Wordlist:
         if letter in self._missing:
             raise ContradictoryFilterError()
 
-        if letter in self._present:
-            raise RedundantFilterError()
+        # if letter in self._present:
+        #     raise RedundantFilterError()
 
         self._present.add(letter)
         self._modified = True
@@ -103,7 +106,7 @@ class Wordlist:
     def solution(self, pos: int, letter: str) -> None:
         """Mark a letter as the solution to a character position"""
 
-        if self._solution[pos] is not None:
+        if self._solution[pos] is not None and self._solution[pos] != letter:
             raise ContradictoryFilterError(
                 "Solution at that position has already been set"
             )
@@ -111,8 +114,8 @@ class Wordlist:
         if letter in self._missing:
             raise ContradictoryFilterError()
 
-        if self._solution[pos] == letter:
-            raise RedundantFilterError()
+        # if self._solution[pos] == letter:
+        #     raise RedundantFilterError()
 
         self._solution[pos] = letter
         self._present.discard(letter)
@@ -124,11 +127,11 @@ class Wordlist:
         if self._solution[pos] == letter:
             raise ContradictoryFilterError()
 
-        if letter in self._missing:
-            raise RedundantFilterError()
+        # if letter in self._missing:
+        #     raise RedundantFilterError()
 
-        if letter in self._silenced[pos]:
-            raise RedundantFilterError()
+        # if letter in self._silenced[pos]:
+        #     raise RedundantFilterError()
 
         self._silenced[pos].add(letter)
         self._modified = True
@@ -143,3 +146,17 @@ class Wordlist:
             return self._filtered[0]
         except IndexError as e:
             raise NoWordsFoundError() from e
+
+    @property
+    def solved(self) -> bool:
+        """Has a solution been found"""
+        return all(solution is not None for solution in self._solution)
+
+    @classmethod
+    def from_csv(cls, data: Iterable[str]) -> "Wordlist":
+        """Initialize a Wordlist object from a CSV datafile"""
+
+        input_reader = csv.reader(data)
+        wordlist = cls(wordlist=[record[1] for record in input_reader])
+
+        return wordlist

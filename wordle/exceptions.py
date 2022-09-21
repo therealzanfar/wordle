@@ -1,3 +1,5 @@
+# cSpell:words wordle
+
 """Custom Error Types"""
 
 

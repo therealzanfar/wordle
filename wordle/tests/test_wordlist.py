@@ -1,3 +1,5 @@
+# cSpell:words wordle wordlist
+
 """Test the wordlist object"""
 
 import pytest

@@ -1,7 +1,10 @@
-# cSpell:words wordle
+# cSpell:words Wyant wordle wordlist
 
 """Wordle Solver"""
 
+from abc import ABC, abstractmethod
+from enum import Enum, auto
+from multiprocessing.util import abstract_sockets_supported
 from typing import NamedTuple
 
 __author__ = """Matthew Wyant"""
@@ -52,3 +55,26 @@ class WordRecord(NamedTuple):
 
     def __le__(self, other) -> bool:
         return self._cmp(other) <= 0
+
+
+class GuessResult(Enum):
+    """Per-character results of a Wordle guess"""
+
+    CORRECT = auto()
+    MISPLACED = auto()
+    MISSING = auto()
+
+
+GuessResponse = tuple[GuessResult, ...]
+
+
+class AbstractUI(ABC):
+    """Abstract class for UI modules"""
+
+    @abstractmethod
+    def welcome(self) -> None:
+        """Welcome the user to the game"""
+
+    @abstractmethod
+    def show_guess(self, guess: str) -> GuessResponse:
+        """Show the user a guess and prompt for a response"""

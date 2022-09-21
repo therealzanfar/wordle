@@ -1,6 +1,6 @@
 #! /usr/bin/env python3
 
-# cSpell:words wordle
+# cSpell:words wordle tracebacks
 
 """Console script for wordle."""
 
@@ -9,6 +9,9 @@ import sys
 
 import click
 from rich.logging import RichHandler
+
+from wordle.solver import Solver
+from wordle.ui import TextUI
 
 
 CLICK_CONTEXT = {"help_option_names": ["-h", "--help"]}
@@ -49,6 +52,9 @@ def cli(verbose: int = 0) -> int:
     logger.debug(
         "Running with options: %s", ", ".join(f"{k!s}={v!r}" for k, v in args)
     )
+
+    solver = Solver(TextUI())
+    solver.start()
 
     return 0
 

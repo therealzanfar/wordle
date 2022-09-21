@@ -1,5 +1,3 @@
-#!/usr/bin/env python3
-
 # cSpell:words wordle
 
 """Test `wordle` package test setup."""
